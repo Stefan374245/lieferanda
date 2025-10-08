@@ -1,0 +1,95 @@
+<div class="restaurant-detail-container" *ngIf="restaurant">
+  <!-- Header Section -->
+  <div class="restaurant-header">
+    <button mat-icon-button (click)="goBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    
+    <div class="restaurant-cover">
+      <img [src]="restaurant.coverImage" [alt]="restaurant.name" class="cover-image">
+      <div class="restaurant-overlay">
+        <div class="restaurant-info">
+          <img [src]="restaurant.logo" [alt]="restaurant.name" class="restaurant-logo">
+          <div class="restaurant-details">
+            <h1>{{ restaurant.name }}</h1>
+            <p class="description">{{ restaurant.description }}</p>
+            <div class="restaurant-meta">
+              <div class="rating">
+                <mat-icon>star</mat-icon>
+                <span>{{ restaurant.rating }}</span>
+                <span class="review-count">({{ restaurant.reviewCount }} Bewertungen)</span>
+              </div>
+              <div class="delivery-info">
+                <mat-icon>schedule</mat-icon>
+                <span>{{ restaurant.deliveryTime }} Min</span>
+                <span class="delivery-fee">{{ restaurant.deliveryFee }}€ Lieferung</span>
+              </div>
+              <div class="minimum-order">
+                <mat-icon>shopping_cart</mat-icon>
+                <span>Min. {{ restaurant.minimumOrder }}€</span>
+              </div>
+            </div>
+            <mat-chip-listbox class="cuisine-chips">
+              <mat-chip *ngFor="let cuisine of restaurant.cuisine">{{ cuisine }}</mat-chip>
+            </mat-chip-listbox>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Speisekarte wird geladen...</p>
+  </div>
+
+  <!-- Menu Section -->
+  <div *ngIf="!loading" class="menu-section">
+    <h2>Speisekarte</h2>
+    
+    <!-- Debug Info -->
+    <div class="debug-info" style="background: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 4px;">
+      <small>
+        <strong>Debug:</strong> 
+        Restaurant: {{ restaurant.name }} | 
+        Total Dishes: {{ allDishes.length }} | 
+        Categories: {{ availableCategories.length }}
+        <br>
+        Available Categories: {{ availableCategories.join(', ') }}
+      </small>
+    </div>
+    
+    <!-- Category Tabs -->
+    <mat-tab-group *ngIf="availableCategories.length > 0">
+      <mat-tab *ngFor="let category of availableCategories" 
+               [label]="getCategoryLabel(category) + ' (' + getDishesByCategory(category).length + ')'">
+        <div class="category-content">
+          <div class="dishes-grid">
+            <app-dish-card 
+              *ngFor="let dish of getDishesByCategory(category)" 
+              [dish]="dish">
+            </app-dish-card>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+    
+    <!-- No dishes message -->
+    <div *ngIf="availableCategories.length === 0" class="no-dishes">
+      <mat-icon>restaurant_menu</mat-icon>
+      <h3>Keine Gerichte verfügbar</h3>
+      <p>Für dieses Restaurant sind momentan keine Gerichte verfügbar.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Error State -->
+<div *ngIf="!restaurant && !loading" class="error-container">
+  <mat-icon>error</mat-icon>
+  <h2>Restaurant nicht gefunden</h2>
+  <p>Das gesuchte Restaurant existiert nicht oder wurde entfernt.</p>
+  <button mat-raised-button color="primary" (click)="goBack()">
+    Zurück zur Übersicht
+  </button>
+</div>

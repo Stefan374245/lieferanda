@@ -86,11 +86,13 @@
     padding: 0 0 40px;
 
     .restaurant-card {
+      background-color: azure;
       cursor: pointer;
       transition: all 0.3s ease;
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
 
       &:hover {
         transform: translateY(-4px);

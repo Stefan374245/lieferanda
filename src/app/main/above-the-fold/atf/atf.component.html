@@ -32,15 +32,18 @@
     <div class="section-content">
       <h2>Worauf hast du heute Lust?</h2>
       <div class="cuisine-grid">
-        <div *ngFor="let cuisine of cuisineTypes" 
+        <div *ngFor="let category of cuisineCategories" 
              class="cuisine-card" 
-             (click)="searchByCuisine(cuisine.name)">
-          <div class="cuisine-image">
-            <img [src]="cuisine.image" [alt]="cuisine.name" />
+             (click)="searchByCuisine(category.id)">
+          <div class="cuisine-image" [style.background-color]="category.color">
+            <mat-icon class="cuisine-icon">{{category.icon}}</mat-icon>
           </div>
           <div class="cuisine-info">
-            <mat-icon>{{cuisine.icon}}</mat-icon>
-            <h3>{{cuisine.name}}</h3>
+            <h3>{{category.displayName}}</h3>
+            <p class="cuisine-description">{{category.description}}</p>
+            <span class="restaurant-count" *ngIf="restaurantCounts[category.id]">
+              {{restaurantCounts[category.id]}} Restaurants
+            </span>
           </div>
         </div>
       </div>

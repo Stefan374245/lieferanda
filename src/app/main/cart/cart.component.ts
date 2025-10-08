@@ -8,6 +8,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { CartItem } from '../../models/cart-item.model';
 import { CartService } from '../../services/cart.service';
+import { C } from "../../../../node_modules/@angular/cdk/overlay-module.d-B3qEQtts";
 
 @Component({
   selector: 'app-cart',
@@ -18,8 +19,9 @@ import { CartService } from '../../services/cart.service';
     MatIconModule,
     MatButtonModule,
     MatDividerModule,
-    MatSnackBarModule
-  ],
+    MatSnackBarModule,
+    C
+],
   templateUrl: '../../main/cart/cart.component.html',
   styleUrls: ['../../main/cart/cart.component.scss']
 })

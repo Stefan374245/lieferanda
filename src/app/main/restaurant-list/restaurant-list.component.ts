@@ -11,10 +11,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, debounceTime, distinctUntilChanged } from 'rxjs';
 import { Restaurant } from '../../models/restaurant.model';
+import { CuisineCategory } from '../../models/cuisine-category.model';
 import { RestaurantService } from '../../services/restaurant.service';
+import { CuisineCategoryService } from '../../services/cuisine-category.service';
 
 @Component({
   selector: 'app-restaurant-list',
@@ -44,14 +46,16 @@ export class RestaurantListComponent implements OnInit {
   searchForm: FormGroup;
   filterForm: FormGroup;
   
-  cuisineFilters = [
-    'Alle', 'Pizza', 'Italienisch', 'Chinesisch', 'Indisch', 
-    'Japanisch', 'Mexikanisch', 'Türkisch', 'Fast Food', 'Café', 'Sushi'
-  ];
+  cuisineCategories: CuisineCategory[] = [];
+  cuisineFilters: string[] = [];
+  
+  selectedCuisine = 'Alle';
 
   constructor(
     private restaurantService: RestaurantService,
+    private cuisineCategoryService: CuisineCategoryService,
     private router: Router,
+    private route: ActivatedRoute,
     private fb: FormBuilder
   ) {
     this.loading$ = this.restaurantService.loading$;
@@ -68,6 +72,15 @@ export class RestaurantListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initializeCuisineFilters();
+    
+    // Check for query parameters first
+    this.route.queryParams.subscribe(params => {
+      if (params['cuisine']) {
+        this.filterForm.patchValue({ cuisine: params['cuisine'] });
+      }
+    });
+
     this.loadRestaurants();
     this.setupSearchAndFilters();
     
@@ -76,6 +89,14 @@ export class RestaurantListComponent implements OnInit {
       this.restaurants = restaurants;
       this.applyFilters();
     });
+  }
+
+  /**
+   * Initialize cuisine filters from CuisineCategoryService
+   */
+  initializeCuisineFilters(): void {
+    this.cuisineCategories = this.cuisineCategoryService.getAllCuisineCategories();
+    this.cuisineFilters = ['Alle', ...this.cuisineCategories.map(cat => cat.name)];
   }
 
   /**
@@ -98,7 +119,8 @@ export class RestaurantListComponent implements OnInit {
     });
 
     // Filter changes
-    this.filterForm.valueChanges.subscribe(() => {
+    this.filterForm.valueChanges.subscribe((changes) => {
+      console.log('Filter form changes:', changes);
       this.applyFilters();
     });
   }
@@ -119,30 +141,51 @@ export class RestaurantListComponent implements OnInit {
    */
   applyFilters(): void {
     const filters = this.filterForm.value;
+    console.log('Applying filters:', filters);
     
-    this.filteredRestaurants = this.restaurants.filter(restaurant => {
-      // Cuisine filter
-      if (filters.cuisine !== 'Alle' && !restaurant.cuisine.includes(filters.cuisine)) {
-        return false;
-      }
-      
-      // Rating filter
-      if (restaurant.rating < filters.minRating) {
-        return false;
-      }
-      
-      // Delivery time filter
-      if (restaurant.deliveryTime > filters.maxDeliveryTime) {
-        return false;
-      }
-      
-      // Free delivery filter
-      if (filters.freeDelivery && restaurant.deliveryFee > 0) {
-        return false;
-      }
-      
-      return true;
-    });
+    // Start with all restaurants
+    let filtered = [...this.restaurants];
+    
+    // If a specific cuisine is selected and not 'Alle'
+    if (filters.cuisine && filters.cuisine !== 'Alle') {
+      console.log('Filtering by cuisine:', filters.cuisine);
+      // Filter restaurants by cuisine
+      filtered = filtered.filter(restaurant => {
+        const matches = restaurant.cuisine.includes(filters.cuisine);
+        console.log(`Restaurant ${restaurant.name} cuisine: ${restaurant.cuisine}, matches ${filters.cuisine}: ${matches}`);
+        return matches;
+      });
+    }
+    
+    // Rating filter
+    if (filters.minRating > 0) {
+      filtered = filtered.filter(restaurant => restaurant.rating >= filters.minRating);
+    }
+    
+    // Delivery time filter
+    if (filters.maxDeliveryTime < 90) {
+      filtered = filtered.filter(restaurant => restaurant.deliveryTime <= filters.maxDeliveryTime);
+    }
+    
+    // Free delivery filter
+    if (filters.freeDelivery) {
+      filtered = filtered.filter(restaurant => restaurant.deliveryFee === 0);
+    }
+    
+    console.log(`Filtered restaurants: ${filtered.length} of ${this.restaurants.length}`);
+    this.filteredRestaurants = filtered;
+  }
+
+  /**
+   * Filter by cuisine type
+   */
+  filterByCuisine(cuisine: string): void {
+    this.filterForm.patchValue({ cuisine: cuisine });
+    if (cuisine === 'Alle') {
+      this.loadRestaurants();
+    } else {
+      this.restaurantService.getRestaurantsByCuisine(cuisine).subscribe();
+    }
   }
 
   /**

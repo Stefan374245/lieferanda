@@ -45,9 +45,20 @@ export class RestaurantService {
     );
   }
 
-  // Filter by cuisine
+  // Get restaurants by cuisine with proper handling
   getRestaurantsByCuisine(cuisine: string): Observable<Restaurant[]> {
     this.loadingSubject.next(true);
+    
+    // If "Alle" is selected, get all restaurants
+    if (cuisine === 'Alle') {
+      return this.mockRestaurantService.getAllRestaurants().pipe(
+        map(restaurants => {
+          this.restaurantsSubject.next(restaurants);
+          this.loadingSubject.next(false);
+          return restaurants;
+        })
+      );
+    }
     
     return this.mockRestaurantService.filterByCuisine(cuisine).pipe(
       map(restaurants => {

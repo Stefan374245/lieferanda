@@ -31,7 +31,7 @@ export class MockRestaurantService {
       id: '1',
       name: 'Bella Vista Pizzeria',
       description: 'Authentische italienische Pizza aus dem Steinofen',
-      cuisine: ['Italienisch', 'Pizza'],
+      cuisine: ['Italienisch'], // Vereinfacht
       rating: 4.7,
       reviewCount: 342,
       deliveryTime: '25-35 Min',
@@ -49,7 +49,7 @@ export class MockRestaurantService {
       id: '2',
       name: 'Dragon Palace',
       description: 'Traditionelle chinesische Küche mit modernem Touch',
-      cuisine: ['Chinesisch', 'Asiatisch'],
+      cuisine: ['Asiatisch'], // Vereinfacht
       rating: 4.5,
       reviewCount: 278,
       deliveryTime: '30-40 Min',
@@ -65,27 +65,27 @@ export class MockRestaurantService {
     },
     {
       id: '3',
-      name: 'El Sombrero',
-      description: 'Feurige mexikanische Spezialitäten und frische Burritos',
-      cuisine: ['Mexikanisch', 'Tex-Mex'],
-      rating: 4.3,
-      reviewCount: 156,
-      deliveryTime: '35-45 Min',
-      deliveryFee: 2.49,
-      minimumOrder: 18.00,
-      coverImage: 'assets/img/images/restaurants/el-sombrero-cover.jpg',
-      logo: 'assets/img/images/restaurants/el-sombrero-logo.jpg',
+      name: 'Tapas y Más',
+      description: 'Authentische spanische Tapas und traditionelle Gerichte',
+      cuisine: ['Spanisch'], // Vereinfacht
+      rating: 4.7,
+      reviewCount: 256,
+      deliveryTime: '30-40 Min',
+      deliveryFee: 2.99,
+      minimumOrder: 16.00,
+      coverImage: 'assets/img/images/restaurants/tapas-cover.jpg',
+      logo: 'assets/img/images/restaurants/tapas-logo.jpg',
       address: 'Kreuzbergstraße 88',
       city: 'Berlin',
-      isOpen: false,
-      isDelivering: false,
+      isOpen: true,
+      isDelivering: true,
       priceLevel: 2
     },
     {
       id: '4',
       name: 'Maharaja Palace',
       description: 'Exotische indische Curries und Tandoori-Spezialitäten',
-      cuisine: ['Indisch', 'Curry'],
+      cuisine: ['Asiatisch'], // Indisch gehört zu Asiatisch
       rating: 4.6,
       reviewCount: 423,
       deliveryTime: '40-50 Min',
@@ -103,7 +103,7 @@ export class MockRestaurantService {
       id: '5',
       name: 'Burger König',
       description: 'Saftige Burger und knusprige Pommes',
-      cuisine: ['Burger', 'Fast Food'],
+      cuisine: ['Deutsch'], // Fast Food → Deutsch
       rating: 4.1,
       reviewCount: 234,
       deliveryTime: '20-30 Min',
@@ -121,7 +121,7 @@ export class MockRestaurantService {
       id: '6',
       name: 'Sakura Sushi',
       description: 'Frisches Sushi und japanische Delikatessen',
-      cuisine: ['Japanisch', 'Sushi'],
+      cuisine: ['Asiatisch'], // Japanisch gehört zu Asiatisch
       rating: 4.8,
       reviewCount: 567,
       deliveryTime: '45-55 Min',
@@ -139,7 +139,7 @@ export class MockRestaurantService {
       id: '7',
       name: 'Döner King',
       description: 'Der beste Döner der Stadt mit frischen Zutaten',
-      cuisine: ['Türkisch', 'Döner'],
+      cuisine: ['Deutsch'], // Türkisch/Döner → Deutsch
       rating: 4.2,
       reviewCount: 189,
       deliveryTime: '15-25 Min',
@@ -157,7 +157,7 @@ export class MockRestaurantService {
       id: '8',
       name: 'Café Central',
       description: 'Gemütliches Café mit hausgemachten Kuchen und Kaffee',
-      cuisine: ['Café', 'Desserts'],
+      cuisine: ['Deutsch'], // Café → Deutsch
       rating: 4.4,
       reviewCount: 298,
       deliveryTime: '30-40 Min',
@@ -175,7 +175,7 @@ export class MockRestaurantService {
       id: '9',
       name: 'Pasta Amore',
       description: 'Hausgemachte Pasta nach traditionellen Rezepten',
-      cuisine: ['Italienisch', 'Pasta'],
+      cuisine: ['Italienisch'], // Pasta → Italienisch
       rating: 4.6,
       reviewCount: 378,
       deliveryTime: '35-45 Min',
@@ -193,7 +193,7 @@ export class MockRestaurantService {
       id: '10',
       name: 'Pho Saigon',
       description: 'Vietnamesische Pho-Suppen und Frühlingsrollen',
-      cuisine: ['Vietnamesisch', 'Suppen'],
+      cuisine: ['Asiatisch'], // Vietnamesisch gehört zu Asiatisch
       rating: 4.5,
       reviewCount: 201,
       deliveryTime: '40-50 Min',
@@ -202,6 +202,226 @@ export class MockRestaurantService {
       coverImage: 'assets/img/images/restaurants/pho-saigon-cover.jpg',
       logo: 'assets/img/images/restaurants/pho-saigon-logo.jpg',
       address: 'Warschauer Straße 12',
+      city: 'Berlin',
+      isOpen: true,
+      isDelivering: true,
+      priceLevel: 2
+    },
+    // Erweiterte Italienische Restaurants
+    {
+      id: '11',
+      name: 'Da Vinci Ristorante',
+      description: 'Edle italienische Küche mit Meeresfrüchten und Fleischspezialitäten',
+      cuisine: ['Italienisch'],
+      rating: 4.8,
+      reviewCount: 445,
+      deliveryTime: '40-50 Min',
+      deliveryFee: 4.49,
+      minimumOrder: 25.00,
+      coverImage: 'assets/img/images/restaurants/da-vinci-cover.jpg',
+      logo: 'assets/img/images/restaurants/da-vinci-logo.jpg',
+      address: 'Kurfürstendamm 156',
+      city: 'Berlin',
+      isOpen: true,
+      isDelivering: true,
+      priceLevel: 3
+    },
+    {
+      id: '12',
+      name: 'Mama Mia Trattoria',
+      description: 'Familiäre Atmosphäre mit traditionellen italienischen Gerichten',
+      cuisine: ['Italienisch'],
+      rating: 4.3,
+      reviewCount: 267,
+      deliveryTime: '30-40 Min',
+      deliveryFee: 2.99,
+      minimumOrder: 18.00,
+      coverImage: 'assets/img/images/restaurants/mama-mia-cover.jpg',
+      logo: 'assets/img/images/restaurants/mama-mia-logo.jpg',
+      address: 'Hackescher Markt 8',
+      city: 'Berlin',
+      isOpen: true,
+      isDelivering: true,
+      priceLevel: 2
+    },
+    {
+      id: '13',
+      name: 'Pizzeria Napoletana',
+      description: 'Authentische neapolitanische Pizza nach traditioneller Art',
+      cuisine: ['Italienisch'],
+      rating: 4.7,
+      reviewCount: 523,
+      deliveryTime: '25-35 Min',
+      deliveryFee: 2.49,
+      minimumOrder: 14.00,
+      coverImage: 'assets/img/images/restaurants/napoletana-cover.jpg',
+      logo: 'assets/img/images/restaurants/napoletana-logo.jpg',
+      address: 'Schönhauser Allee 89',
+      city: 'Berlin',
+      isOpen: true,
+      isDelivering: true,
+      priceLevel: 2
+    },
+    {
+      id: '14',
+      name: 'Gelato Paradiso',
+      description: 'Italienische Gelato-Bar mit hausgemachtem Eis und Desserts',
+      cuisine: ['Italienisch'],
+      rating: 4.9,
+      reviewCount: 189,
+      deliveryTime: '20-30 Min',
+      deliveryFee: 1.99,
+      minimumOrder: 8.00,
+      coverImage: 'assets/img/images/restaurants/gelato-paradiso-cover.jpg',
+      logo: 'assets/img/images/restaurants/gelato-paradiso-logo.jpg',
+      address: 'Münzstraße 15',
+      city: 'Berlin',
+      isOpen: true,
+      isDelivering: true,
+      priceLevel: 1
+    },
+    // Erweiterte Spanische Restaurants  
+    {
+      id: '15',
+      name: 'El Toro Loco',
+      description: 'Lebendige spanische Tapas-Bar mit Flamenco-Atmosphäre',
+      cuisine: ['Spanisch'],
+      rating: 4.5,
+      reviewCount: 334,
+      deliveryTime: '35-45 Min',
+      deliveryFee: 3.49,
+      minimumOrder: 20.00,
+      coverImage: 'assets/img/images/restaurants/el-toro-cover.jpg',
+      logo: 'assets/img/images/restaurants/el-toro-logo.jpg',
+      address: 'Bergmannstraße 102',
+      city: 'Berlin',
+      isOpen: true,
+      isDelivering: true,
+      priceLevel: 2
+    },
+    {
+      id: '16',
+      name: 'Paella Valencia',
+      description: 'Spezialist für authentische Paella aus Valencia',
+      cuisine: ['Spanisch'],
+      rating: 4.6,
+      reviewCount: 278,
+      deliveryTime: '50-60 Min',
+      deliveryFee: 4.99,
+      minimumOrder: 28.00,
+      coverImage: 'assets/img/images/restaurants/paella-valencia-cover.jpg',
+      logo: 'assets/img/images/restaurants/paella-valencia-logo.jpg',
+      address: 'Savignyplatz 7',
+      city: 'Berlin',
+      isOpen: true,
+      isDelivering: true,
+      priceLevel: 3
+    },
+    {
+      id: '17',
+      name: 'Casa Andalucia',
+      description: 'Südspanische Küche mit Jamón Ibérico und Sherry',
+      cuisine: ['Spanisch'],
+      rating: 4.4,
+      reviewCount: 198,
+      deliveryTime: '40-50 Min',
+      deliveryFee: 3.99,
+      minimumOrder: 22.00,
+      coverImage: 'assets/img/images/restaurants/casa-andalucia-cover.jpg',
+      logo: 'assets/img/images/restaurants/casa-andalucia-logo.jpg',
+      address: 'Torstraße 44',
+      city: 'Berlin',
+      isOpen: true,
+      isDelivering: true,
+      priceLevel: 2
+    },
+    {
+      id: '18',
+      name: 'Bodega Catalana',
+      description: 'Katalanische Spezialitäten und erstklassige Sangria',
+      cuisine: ['Spanisch'],
+      rating: 4.7,
+      reviewCount: 412,
+      deliveryTime: '35-45 Min',
+      deliveryFee: 3.49,
+      minimumOrder: 19.00,
+      coverImage: 'assets/img/images/restaurants/bodega-catalana-cover.jpg',
+      logo: 'assets/img/images/restaurants/bodega-catalana-logo.jpg',
+      address: 'Rosenthaler Straße 68',
+      city: 'Berlin',
+      isOpen: true,
+      isDelivering: true,
+      priceLevel: 2
+    },
+    {
+      id: '19',
+      name: 'Churros Madrid',
+      description: 'Süße spanische Leckereien und traditioneller Café con Leche',
+      cuisine: ['Spanisch'],
+      rating: 4.2,
+      reviewCount: 156,
+      deliveryTime: '20-30 Min',
+      deliveryFee: 2.49,
+      minimumOrder: 12.00,
+      coverImage: 'assets/img/images/restaurants/churros-madrid-cover.jpg',
+      logo: 'assets/img/images/restaurants/churros-madrid-logo.jpg',
+      address: 'Gendarmenmarkt 3',
+      city: 'Berlin',
+      isOpen: true,
+      isDelivering: true,
+      priceLevel: 1
+    },
+    // Erweiterte Deutsche Restaurants
+    {
+      id: '20',
+      name: 'Zur Alten Schmiede',
+      description: 'Traditionelle deutsche Hausmannskost in rustikalem Ambiente',
+      cuisine: ['Deutsch'],
+      rating: 4.5,
+      reviewCount: 387,
+      deliveryTime: '35-45 Min',
+      deliveryFee: 3.49,
+      minimumOrder: 20.00,
+      coverImage: 'assets/img/images/restaurants/alte-schmiede-cover.jpg',
+      logo: 'assets/img/images/restaurants/alte-schmiede-logo.jpg',
+      address: 'Große Hamburger Straße 32',
+      city: 'Berlin',
+      isOpen: true,
+      isDelivering: true,
+      priceLevel: 2
+    },
+    {
+      id: '21',
+      name: 'Berliner Weißbier-Stube',
+      description: 'Berliner Spezialitäten mit Eisbein und Sauerkraut',
+      cuisine: ['Deutsch'],
+      rating: 4.3,
+      reviewCount: 298,
+      deliveryTime: '40-50 Min',
+      deliveryFee: 3.99,
+      minimumOrder: 18.00,
+      coverImage: 'assets/img/images/restaurants/weissbier-stube-cover.jpg',
+      logo: 'assets/img/images/restaurants/weissbier-stube-logo.jpg',
+      address: 'Nikolaiviertel 14',
+      city: 'Berlin',
+      isOpen: true,
+      isDelivering: true,
+      priceLevel: 2
+    },
+    // Erweiterte Asiatische Restaurants
+    {
+      id: '22',
+      name: 'Thai Orchid',
+      description: 'Authentische thailändische Küche mit frischen Kräutern',
+      cuisine: ['Asiatisch'],
+      rating: 4.6,
+      reviewCount: 445,
+      deliveryTime: '35-45 Min',
+      deliveryFee: 3.99,
+      minimumOrder: 21.00,
+      coverImage: 'assets/img/images/restaurants/thai-orchid-cover.jpg',
+      logo: 'assets/img/images/restaurants/thai-orchid-logo.jpg',
+      address: 'Wienerstraße 24',
       city: 'Berlin',
       isOpen: true,
       isDelivering: true,
@@ -239,12 +459,18 @@ export class MockRestaurantService {
   }
 
   /**
-   * Filter restaurants by cuisine
+   * Filter restaurants by cuisine with debug logging
    */
   filterByCuisine(cuisine: string): Observable<Restaurant[]> {
-    const filtered = this.mockRestaurants.filter(restaurant => 
-      restaurant.cuisine.includes(cuisine)
-    );
+    console.log('Filtering by cuisine:', cuisine);
+    
+    const filtered = this.mockRestaurants.filter(restaurant => {
+      const matches = restaurant.cuisine.includes(cuisine);
+      console.log(`Restaurant ${restaurant.name} has cuisine ${restaurant.cuisine}, matches ${cuisine}:`, matches);
+      return matches;
+    });
+
+    console.log('Filtered restaurants:', filtered.map(r => r.name));
 
     return of(filtered).pipe(
       delay(400),

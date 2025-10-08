@@ -9,7 +9,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Restaurant } from '../../../models/restaurant.model';
+import { CuisineCategory } from '../../../models/cuisine-category.model';
 import { RestaurantService } from '../../../services/restaurant.service';
+import { CuisineCategoryService } from '../../../services/cuisine-category.service';
 
 @Component({
   selector: 'app-atf',
@@ -31,21 +33,34 @@ export class AtfComponent implements OnInit {
   searchControl = new FormControl('');
   featuredRestaurants: Restaurant[] = [];
   loading = true;
-
-  cuisineTypes = [
-    { name: 'Spanisch', icon: 'restaurant', image: 'assets/img/images/cuisine/spanish.jpg' },
-    { name: 'Italienisch', icon: 'local_pizza', image: 'assets/img/images/cuisine/italian.jpg' },
-    { name: 'Asiatisch', icon: 'ramen_dining', image: 'assets/img/images/cuisine/asian.jpg' },
-    { name: 'Deutsch', icon: 'lunch_dining', image: 'assets/img/images/cuisine/german.jpg' }
-  ];
+  cuisineCategories: CuisineCategory[] = [];
+  restaurantCounts: { [categoryId: string]: number } = {};
 
   constructor(
     private router: Router,
-    private restaurantService: RestaurantService
+    private restaurantService: RestaurantService,
+    private cuisineCategoryService: CuisineCategoryService
   ) {}
 
   ngOnInit(): void {
+    this.loadCuisineCategories();
     this.loadFeaturedRestaurants();
+    this.loadRestaurantCounts();
+  }
+
+  loadCuisineCategories(): void {
+    this.cuisineCategories = this.cuisineCategoryService.getAllCuisineCategories();
+  }
+
+  loadRestaurantCounts(): void {
+    this.cuisineCategoryService.getRestaurantCountByCategory().subscribe({
+      next: (counts) => {
+        this.restaurantCounts = counts;
+      },
+      error: (error) => {
+        console.error('Error loading restaurant counts:', error);
+      }
+    });
   }
 
   loadFeaturedRestaurants(): void {
@@ -72,8 +87,11 @@ export class AtfComponent implements OnInit {
     this.router.navigate(['/restaurants']);
   }
 
-  searchByCuisine(cuisineType: string): void {
-    this.router.navigate(['/restaurants'], { queryParams: { cuisine: cuisineType } });
+  searchByCuisine(categoryId: string): void {
+    const category = this.cuisineCategoryService.getCuisineCategoryById(categoryId);
+    if (category) {
+      this.router.navigate(['/restaurants'], { queryParams: { cuisine: category.name } });
+    }
   }
 
   openRestaurant(restaurant: Restaurant): void {
