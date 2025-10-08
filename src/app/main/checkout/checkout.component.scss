@@ -1,0 +1,224 @@
+.checkout-container {
+  padding: 100px 20px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+
+  .checkout-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+
+    h1 {
+      margin: 0;
+      color: #333;
+      font-size: 2rem;
+      font-weight: 600;
+    }
+  }
+
+  .checkout-content {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 32px;
+    align-items: start;
+
+    .checkout-form {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+
+      .form-section {
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+        mat-card-header {
+          h2 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+
+            mat-icon {
+              color: #ff6b35;
+            }
+          }
+        }
+
+        mat-card-content {
+          .form-row {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+
+            .street-field {
+              flex: 2;
+            }
+
+            .number-field {
+              flex: 1;
+            }
+
+            mat-form-field {
+              flex: 1;
+            }
+          }
+
+          .payment-field,
+          .notes-field {
+            width: 100%;
+          }
+
+          .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            mat-icon {
+              color: #666;
+            }
+          }
+        }
+      }
+
+      .submit-section {
+        .place-order-btn {
+          width: 100%;
+          height: 56px;
+          font-size: 1.2rem;
+          font-weight: 600;
+          border-radius: 8px;
+
+          .loading-icon {
+            animation: spin 1s linear infinite;
+          }
+
+          mat-icon {
+            margin-right: 8px;
+          }
+        }
+      }
+    }
+
+    .order-summary {
+      position: sticky;
+      top: 120px;
+
+      .summary-card {
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+
+        mat-card-header {
+          h2 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+
+            mat-icon {
+              color: #ff6b35;
+            }
+          }
+        }
+
+        mat-card-content {
+          .order-items {
+            margin-bottom: 16px;
+
+            .summary-item {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding: 8px 0;
+
+              .item-info {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                flex: 1;
+
+                .item-name {
+                  font-weight: 500;
+                  color: #333;
+                }
+
+                .item-quantity {
+                  color: #666;
+                  font-size: 0.9rem;
+                }
+              }
+
+              .item-price {
+                font-weight: 600;
+                color: #ff6b35;
+              }
+            }
+          }
+
+          .summary-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 1rem;
+
+            &.total {
+              font-size: 1.2rem;
+              font-weight: 600;
+              color: #333;
+            }
+          }
+
+          .summary-divider {
+            margin: 16px 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .checkout-container {
+    padding: 80px 16px 40px;
+
+    .checkout-content {
+      grid-template-columns: 1fr;
+      gap: 24px;
+
+      .order-summary {
+        order: -1;
+        position: static;
+      }
+
+      .checkout-form {
+        .form-section {
+          mat-card-content {
+            .form-row {
+              flex-direction: column;
+              gap: 12px;
+
+              mat-form-field {
+                width: 100%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

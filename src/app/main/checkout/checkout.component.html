@@ -1,0 +1,170 @@
+<div class="checkout-container">
+  <div class="checkout-header">
+    <button mat-icon-button (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Kasse</h1>
+  </div>
+
+  <div class="checkout-content">
+    <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()" class="checkout-form">
+      
+      <!-- Delivery Address -->
+      <mat-card class="form-section">
+        <mat-card-header>
+          <h2>
+            <mat-icon>location_on</mat-icon>
+            Lieferadresse
+          </h2>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="street-field">
+              <mat-label>Straße</mat-label>
+              <input matInput formControlName="street" placeholder="Musterstraße">
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline" class="number-field">
+              <mat-label>Hausnummer</mat-label>
+              <input matInput formControlName="number" placeholder="123a">
+            </mat-form-field>
+          </div>
+          
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>PLZ</mat-label>
+              <input matInput formControlName="zipCode" placeholder="12345">
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline">
+              <mat-label>Stadt</mat-label>
+              <input matInput formControlName="city" placeholder="Musterstadt">
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Contact Information -->
+      <mat-card class="form-section">
+        <mat-card-header>
+          <h2>
+            <mat-icon>contact_phone</mat-icon>
+            Kontaktdaten
+          </h2>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Telefonnummer</mat-label>
+              <input matInput formControlName="phone" placeholder="+49 123 4567890">
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline">
+              <mat-label>E-Mail</mat-label>
+              <input matInput formControlName="email" type="email" placeholder="max@example.com">
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Payment Method -->
+      <mat-card class="form-section">
+        <mat-card-header>
+          <h2>
+            <mat-icon>payment</mat-icon>
+            Zahlungsmethode
+          </h2>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <mat-form-field appearance="outline" class="payment-field">
+            <mat-label>Zahlungsmethode wählen</mat-label>
+            <mat-select formControlName="paymentMethod">
+              <mat-option *ngFor="let method of paymentMethods" [value]="method.value">
+                <div class="payment-option">
+                  <mat-icon>{{method.icon}}</mat-icon>
+                  <span>{{method.label}}</span>
+                </div>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Notes -->
+      <mat-card class="form-section">
+        <mat-card-header>
+          <h2>
+            <mat-icon>note</mat-icon>
+            Anmerkungen (optional)
+          </h2>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <mat-form-field appearance="outline" class="notes-field">
+            <mat-label>Besondere Wünsche oder Anmerkungen</mat-label>
+            <textarea matInput formControlName="notes" rows="3" 
+                     placeholder="z.B. Allergien, Stockwerk, Klingel..."></textarea>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Submit Button -->
+      <div class="submit-section">
+        <button mat-raised-button color="primary" type="submit" 
+                [disabled]="!checkoutForm.valid || loading || cartItems.length === 0"
+                class="place-order-btn">
+          <mat-icon *ngIf="!loading">shopping_cart_checkout</mat-icon>
+          <mat-icon *ngIf="loading" class="loading-icon">refresh</mat-icon>
+          <span *ngIf="!loading">Bestellung aufgeben</span>
+          <span *ngIf="loading">Wird bearbeitet...</span>
+        </button>
+      </div>
+    </form>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+      <mat-card class="summary-card">
+        <mat-card-header>
+          <h2>
+            <mat-icon>receipt</mat-icon>
+            Bestellübersicht
+          </h2>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <div class="order-items">
+            <div *ngFor="let item of cartItems" class="summary-item">
+              <div class="item-info">
+                <span class="item-name">{{item.dish.name}}</span>
+                <span class="item-quantity">×{{item.quantity}}</span>
+              </div>
+              <span class="item-price">{{item.totalPrice | currency:'EUR':'symbol':'1.2-2'}}</span>
+            </div>
+          </div>
+          
+          <mat-divider class="summary-divider"></mat-divider>
+          
+          <div class="summary-line">
+            <span>Zwischensumme:</span>
+            <span>{{subtotal | currency:'EUR':'symbol':'1.2-2'}}</span>
+          </div>
+          
+          <div class="summary-line">
+            <span>Lieferkosten:</span>
+            <span>{{deliveryFee | currency:'EUR':'symbol':'1.2-2'}}</span>
+          </div>
+          
+          <mat-divider class="summary-divider"></mat-divider>
+          
+          <div class="summary-line total">
+            <span>Gesamtkosten:</span>
+            <span>{{total | currency:'EUR':'symbol':'1.2-2'}}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

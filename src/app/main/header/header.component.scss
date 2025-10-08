@@ -1,0 +1,96 @@
+.header-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toolbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  .logo {
+    height: 40px;
+    margin-right: 12px;
+  }
+
+  .app-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+  }
+}
+
+.nav-section {
+  display: flex;
+  gap: 8px;
+
+  button {
+    color: white;
+    
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.actions-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .cart-button {
+    color: white;
+    
+    mat-icon {
+      font-size: 24px;
+    }
+  }
+
+  button {
+    color: white;
+    
+    mat-icon {
+      margin-right: 4px;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .toolbar-content {
+    padding: 0 8px;
+  }
+
+  .logo-section {
+    .app-name {
+      font-size: 1.2rem;
+    }
+  }
+
+  .actions-section {
+    gap: 4px;
+  }
+}

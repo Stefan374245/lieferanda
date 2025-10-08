@@ -1,0 +1,155 @@
+<div class="order-tracking-container">
+  <div class="header">
+    <h1>
+      <mat-icon>receipt_long</mat-icon>
+      Meine Bestellungen
+    </h1>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Bestellungen werden geladen...</p>
+  </div>
+
+  <div *ngIf="!loading" class="orders-content">
+    <mat-tab-group>
+      <mat-tab [label]="'Aktuelle Bestellungen (' + activeOrders.length + ')'">
+        <div class="tab-content">
+          <div *ngIf="activeOrders.length > 0" class="orders-list">
+            <mat-card *ngFor="let order of activeOrders" class="order-card active-order">
+              <mat-card-header>
+                <div class="order-header">
+                  <div class="order-info">
+                    <h3>{{order.restaurantName}}</h3>
+                    <p class="order-id">Bestellung #{{order.id.slice(-8)}}</p>
+                    <p class="order-date">{{order.orderDate | date:'dd.MM.yyyy HH:mm'}}</p>
+                  </div>
+                  <div class="order-status">
+                    <mat-chip [color]="getStatusColor(order.status)" selected>
+                      <mat-icon>{{getStatusIcon(order.status)}}</mat-icon>
+                      {{getStatusText(order.status)}}
+                    </mat-chip>
+                  </div>
+                </div>
+              </mat-card-header>
+
+              <mat-card-content>
+                <div class="order-items">
+                  <div *ngFor="let item of order.items" class="order-item">
+                    <span class="item-name">{{item.quantity}}x {{item.dish.name}}</span>
+                    <span class="item-price">{{item.totalPrice | currency:'EUR':'symbol':'1.2-2'}}</span>
+                  </div>
+                </div>
+
+                <div class="order-total">
+                  <strong>Gesamt: {{order.totalAmount | currency:'EUR':'symbol':'1.2-2'}}</strong>
+                </div>
+
+                <div class="estimated-delivery" *ngIf="order.estimatedDeliveryTime">
+                  <mat-icon>schedule</mat-icon>
+                  <span>Voraussichtliche Lieferung: {{order.estimatedDeliveryTime | date:'HH:mm'}}</span>
+                </div>
+
+                <div class="delivery-address">
+                  <mat-icon>location_on</mat-icon>
+                  <span>
+                    {{order.deliveryAddress.street}} {{order.deliveryAddress.number}}, 
+                    {{order.deliveryAddress.zipCode}} {{order.deliveryAddress.city}}
+                  </span>
+                </div>
+
+                <!-- Order Tracking Timeline -->
+                <div class="tracking-timeline" *ngIf="order.tracking">
+                  <h4>Bestellverlauf:</h4>
+                  <div class="timeline">
+                    <div *ngFor="let track of order.tracking" class="timeline-item">
+                      <div class="timeline-marker">
+                        <mat-icon>{{getStatusIcon(track.status)}}</mat-icon>
+                      </div>
+                      <div class="timeline-content">
+                        <div class="timeline-title">{{getStatusText(track.status)}}</div>
+                        <div class="timeline-time">{{track.timestamp | date:'dd.MM.yyyy HH:mm'}}</div>
+                        <div class="timeline-message">{{track.message}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+
+              <mat-card-actions *ngIf="canCancelOrder(order)">
+                <button mat-button color="warn" (click)="cancelOrder(order.id)">
+                  <mat-icon>cancel</mat-icon>
+                  Bestellung stornieren
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+
+          <div *ngIf="activeOrders.length === 0" class="no-orders">
+            <mat-icon>receipt_long</mat-icon>
+            <h3>Keine aktiven Bestellungen</h3>
+            <p>Sie haben derzeit keine aktiven Bestellungen.</p>
+            <button mat-raised-button color="primary" routerLink="/restaurants">
+              <mat-icon>restaurant</mat-icon>
+              Jetzt bestellen
+            </button>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab [label]="'Bestellverlauf (' + pastOrders.length + ')'">
+        <div class="tab-content">
+          <div *ngIf="pastOrders.length > 0" class="orders-list">
+            <mat-card *ngFor="let order of pastOrders" class="order-card past-order">
+              <mat-card-header>
+                <div class="order-header">
+                  <div class="order-info">
+                    <h3>{{order.restaurantName}}</h3>
+                    <p class="order-id">Bestellung #{{order.id.slice(-8)}}</p>
+                    <p class="order-date">{{order.orderDate | date:'dd.MM.yyyy HH:mm'}}</p>
+                  </div>
+                  <div class="order-status">
+                    <mat-chip [color]="getStatusColor(order.status)" selected>
+                      <mat-icon>{{getStatusIcon(order.status)}}</mat-icon>
+                      {{getStatusText(order.status)}}
+                    </mat-chip>
+                  </div>
+                </div>
+              </mat-card-header>
+
+              <mat-card-content>
+                <div class="order-items">
+                  <div *ngFor="let item of order.items" class="order-item">
+                    <span class="item-name">{{item.quantity}}x {{item.dish.name}}</span>
+                    <span class="item-price">{{item.totalPrice | currency:'EUR':'symbol':'1.2-2'}}</span>
+                  </div>
+                </div>
+
+                <div class="order-total">
+                  <strong>Gesamt: {{order.totalAmount | currency:'EUR':'symbol':'1.2-2'}}</strong>
+                </div>
+              </mat-card-content>
+
+              <mat-card-actions>
+                <button mat-button color="primary" routerLink="/restaurant/{{order.restaurantId}}">
+                  <mat-icon>restaurant</mat-icon>
+                  Erneut bestellen
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+
+          <div *ngIf="pastOrders.length === 0" class="no-orders">
+            <mat-icon>history</mat-icon>
+            <h3>Kein Bestellverlauf</h3>
+            <p>Sie haben noch keine Bestellungen aufgegeben.</p>
+            <button mat-raised-button color="primary" routerLink="/restaurants">
+              <mat-icon>restaurant</mat-icon>
+              Jetzt bestellen
+            </button>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

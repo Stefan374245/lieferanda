@@ -1,0 +1,363 @@
+.order-tracking-container {
+  padding: 100px 20px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+
+  .header {
+    text-align: center;
+    margin-bottom: 40px;
+
+    h1 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin: 0;
+      color: #333;
+
+      mat-icon {
+        color: #ff6b35;
+        font-size: 2.5rem;
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+    }
+  }
+
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+
+    mat-spinner {
+      margin-bottom: 16px;
+    }
+
+    p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+  }
+
+  .orders-content {
+    .tab-content {
+      padding: 24px 0;
+
+      .orders-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .order-card {
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease;
+
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+          }
+
+          &.active-order {
+            border-left: 4px solid #ff6b35;
+          }
+
+          &.past-order {
+            opacity: 0.9;
+          }
+
+          mat-card-header {
+            .order-header {
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              width: 100%;
+
+              .order-info {
+                h3 {
+                  margin: 0 0 4px 0;
+                  font-size: 1.4rem;
+                  font-weight: 600;
+                  color: #333;
+                }
+
+                .order-id {
+                  margin: 0 0 4px 0;
+                  color: #666;
+                  font-size: 0.9rem;
+                  font-weight: 500;
+                }
+
+                .order-date {
+                  margin: 0;
+                  color: #999;
+                  font-size: 0.85rem;
+                }
+              }
+
+              .order-status {
+                mat-chip {
+                  display: flex;
+                  align-items: center;
+                  gap: 4px;
+                  font-weight: 500;
+
+                  mat-icon {
+                    font-size: 16px;
+                    width: 16px;
+                    height: 16px;
+                  }
+                }
+              }
+            }
+          }
+
+          mat-card-content {
+            .order-items {
+              margin-bottom: 16px;
+
+              .order-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px 0;
+                border-bottom: 1px solid #f0f0f0;
+
+                &:last-child {
+                  border-bottom: none;
+                }
+
+                .item-name {
+                  flex: 1;
+                  color: #333;
+                  font-weight: 500;
+                }
+
+                .item-price {
+                  color: #ff6b35;
+                  font-weight: 600;
+                }
+              }
+            }
+
+            .order-total {
+              text-align: right;
+              margin-bottom: 16px;
+              font-size: 1.1rem;
+              color: #333;
+            }
+
+            .estimated-delivery,
+            .delivery-address {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              margin-bottom: 12px;
+              color: #666;
+              font-size: 0.9rem;
+
+              mat-icon {
+                color: #ff6b35;
+                font-size: 18px;
+                width: 18px;
+                height: 18px;
+              }
+            }
+
+            .tracking-timeline {
+              margin-top: 20px;
+              padding-top: 20px;
+              border-top: 1px solid #f0f0f0;
+
+              h4 {
+                margin: 0 0 16px 0;
+                color: #333;
+                font-size: 1.1rem;
+                font-weight: 600;
+              }
+
+              .timeline {
+                .timeline-item {
+                  display: flex;
+                  align-items: flex-start;
+                  gap: 12px;
+                  margin-bottom: 16px;
+
+                  &:last-child {
+                    margin-bottom: 0;
+                  }
+
+                  .timeline-marker {
+                    flex-shrink: 0;
+                    width: 32px;
+                    height: 32px;
+                    background: #ff6b35;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    mat-icon {
+                      color: white;
+                      font-size: 18px;
+                      width: 18px;
+                      height: 18px;
+                    }
+                  }
+
+                  .timeline-content {
+                    flex: 1;
+                    padding-top: 2px;
+
+                    .timeline-title {
+                      font-weight: 600;
+                      color: #333;
+                      margin-bottom: 2px;
+                    }
+
+                    .timeline-time {
+                      font-size: 0.8rem;
+                      color: #999;
+                      margin-bottom: 4px;
+                    }
+
+                    .timeline-message {
+                      font-size: 0.9rem;
+                      color: #666;
+                      line-height: 1.4;
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          mat-card-actions {
+            padding: 16px 24px;
+            border-top: 1px solid #f0f0f0;
+
+            button {
+              mat-icon {
+                margin-right: 4px;
+              }
+            }
+          }
+        }
+      }
+
+      .no-orders {
+        text-align: center;
+        padding: 60px 20px;
+        color: #666;
+
+        mat-icon {
+          font-size: 64px;
+          width: 64px;
+          height: 64px;
+          margin-bottom: 16px;
+          color: #ccc;
+        }
+
+        h3 {
+          margin: 0 0 8px 0;
+          font-size: 1.5rem;
+          font-weight: 500;
+        }
+
+        p {
+          margin: 0 0 24px 0;
+          font-size: 1rem;
+        }
+
+        button {
+          mat-icon {
+            margin-right: 8px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .order-tracking-container {
+    padding: 80px 16px 40px;
+
+    .header {
+      margin-bottom: 24px;
+
+      h1 {
+        font-size: 2rem;
+        flex-direction: column;
+        gap: 8px;
+
+        mat-icon {
+          font-size: 2rem;
+          width: 2rem;
+          height: 2rem;
+        }
+      }
+    }
+
+    .orders-content {
+      .tab-content {
+        .orders-list {
+          gap: 16px;
+
+          .order-card {
+            mat-card-header {
+              .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+
+                .order-status {
+                  align-self: flex-end;
+                }
+              }
+            }
+
+            mat-card-content {
+              .tracking-timeline {
+                .timeline {
+                  .timeline-item {
+                    .timeline-marker {
+                      width: 28px;
+                      height: 28px;
+
+                      mat-icon {
+                        font-size: 16px;
+                        width: 16px;
+                        height: 16px;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .no-orders {
+          padding: 40px 16px;
+
+          mat-icon {
+            font-size: 48px;
+            width: 48px;
+            height: 48px;
+          }
+
+          h3 {
+            font-size: 1.3rem;
+          }
+        }
+      }
+    }
+  }
+}

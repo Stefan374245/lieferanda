@@ -1,0 +1,142 @@
+<div class="restaurant-list-container">
+  <div class="header-section">
+    <h2>Restaurants in deiner Nähe</h2>
+    <p>Entdecke die besten Restaurants und bestelle dein Lieblingsgericht</p>
+    
+    <!-- Search and Filters -->
+    <div class="search-filter-section">
+      <!-- Search Bar -->
+      <form [formGroup]="searchForm" class="search-form">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Restaurant oder Küche suchen...</mat-label>
+          <input matInput formControlName="searchQuery" placeholder="z.B. Pizza, Sushi, Italienisch">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </form>
+
+      <!-- Filters -->
+      <div class="filters-section">
+        <form [formGroup]="filterForm" class="filter-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Küche</mat-label>
+            <mat-select formControlName="cuisine">
+              <mat-option *ngFor="let cuisine of cuisineFilters" [value]="cuisine">
+                {{cuisine}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Min. Bewertung</mat-label>
+            <mat-select formControlName="minRating">
+              <mat-option [value]="0">Alle</mat-option>
+              <mat-option [value]="3">3+ Sterne</mat-option>
+              <mat-option [value]="4">4+ Sterne</mat-option>
+              <mat-option [value]="4.5">4.5+ Sterne</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Max. Lieferzeit</mat-label>
+            <mat-select formControlName="maxDeliveryTime">
+              <mat-option [value]="30">30 Min</mat-option>
+              <mat-option [value]="45">45 Min</mat-option>
+              <mat-option [value]="60">60 Min</mat-option>
+              <mat-option [value]="90">90 Min</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-checkbox formControlName="freeDelivery" class="free-delivery-checkbox">
+            Kostenlose Lieferung
+          </mat-checkbox>
+
+          <button mat-button type="button" (click)="clearFilters()" class="clear-filters-btn">
+            <mat-icon>clear</mat-icon>
+            Filter löschen
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="loading$ | async" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Restaurants werden geladen...</p>
+  </div>
+
+  <div *ngIf="!(loading$ | async)" class="restaurants-grid">
+    <mat-card 
+      *ngFor="let restaurant of filteredRestaurants" 
+      class="restaurant-card"
+      (click)="openRestaurant(restaurant)">
+      
+      <div class="card-image">
+        <img [src]="restaurant.coverImage" [alt]="restaurant.name" />
+        <div class="delivery-info">
+          <span class="delivery-time">
+            <mat-icon>schedule</mat-icon>
+            {{restaurant.deliveryTime}} Min
+          </span>
+          <span class="delivery-fee">
+            <mat-icon>delivery_dining</mat-icon>
+            {{restaurant.deliveryFee}}€
+          </span>
+        </div>
+      </div>
+
+      <mat-card-content>
+        <div class="restaurant-header">
+          <img [src]="restaurant.logo" [alt]="restaurant.name" class="restaurant-logo" />
+          <div class="restaurant-info">
+            <h3>{{restaurant.name}}</h3>
+            <p class="description">{{restaurant.description}}</p>
+          </div>
+        </div>
+
+        <div class="rating-section">
+          <div class="stars">
+            <mat-icon *ngFor="let star of generateStars(restaurant.rating)">
+              {{star}}
+            </mat-icon>
+          </div>
+          <span class="rating-text">{{restaurant.rating}} ({{restaurant.reviewCount}} Bewertungen)</span>
+        </div>
+
+        <div class="cuisine-tags">
+          <mat-chip-set>
+            <mat-chip *ngFor="let cuisine of restaurant.cuisine">
+              {{cuisine}}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+
+        <div class="restaurant-status">
+          <div class="status-indicator" [class.open]="restaurant.isOpen" [class.closed]="!restaurant.isOpen">
+            <mat-icon>{{restaurant.isOpen ? 'check_circle' : 'cancel'}}</mat-icon>
+            <span>{{restaurant.isOpen ? 'Geöffnet' : 'Geschlossen'}}</span>
+          </div>
+          <div class="minimum-order">
+            Mindestbestellwert: {{restaurant.minimumOrder}}€
+          </div>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" [disabled]="!restaurant.isOpen">
+          <mat-icon>restaurant_menu</mat-icon>
+          Speisekarte ansehen
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div *ngIf="!(loading$ | async) && filteredRestaurants.length === 0" class="no-restaurants">
+    <mat-icon>restaurant</mat-icon>
+    <h3>Keine Restaurants gefunden</h3>
+    <p>Versuche es mit anderen Suchbegriffen oder Filtern.</p>
+    <button mat-raised-button color="primary" (click)="clearFilters()">
+      <mat-icon>refresh</mat-icon>
+      Filter zurücksetzen
+    </button>
+  </div>
+</div>

@@ -1,0 +1,261 @@
+.menu-container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+
+  .restaurant-header {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+    margin-top: 64px; // Account for fixed header
+
+    .header-image {
+      width: 100%;
+      height: 100%;
+      position: relative;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .restaurant-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+        padding: 40px 20px 20px;
+        color: white;
+
+        .restaurant-info {
+          max-width: 1200px;
+          margin: 0 auto;
+          display: flex;
+          align-items: flex-end;
+          gap: 20px;
+
+          .restaurant-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            border: 3px solid white;
+            object-fit: cover;
+          }
+
+          .info-text {
+            flex: 1;
+
+            h1 {
+              margin: 0 0 8px 0;
+              font-size: 2.5rem;
+              font-weight: 600;
+              text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+
+            p {
+              margin: 0 0 16px 0;
+              font-size: 1.1rem;
+              opacity: 0.9;
+              text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            }
+
+            .restaurant-details {
+              display: flex;
+              gap: 24px;
+              flex-wrap: wrap;
+
+              .detail-item {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 0.95rem;
+                font-weight: 500;
+
+                mat-icon {
+                  font-size: 18px;
+                  width: 18px;
+                  height: 18px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+
+    mat-spinner {
+      margin-bottom: 16px;
+    }
+
+    p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+  }
+
+  .menu-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+
+    .menu-tabs {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+
+      ::ng-deep {
+        .mat-mdc-tab-header {
+          border-bottom: 1px solid #e0e0e0;
+          background: #fafafa;
+        }
+
+        .mat-mdc-tab-label {
+          padding: 16px 24px;
+          font-weight: 500;
+          opacity: 0.7;
+          transition: all 0.3s ease;
+
+          &.mdc-tab--active {
+            opacity: 1;
+            font-weight: 600;
+          }
+        }
+
+        .mat-mdc-tab-body-wrapper {
+          padding: 0;
+        }
+      }
+
+      .category-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 24px 24px 16px;
+        border-bottom: 1px solid #f0f0f0;
+        background: #fafafa;
+
+        mat-icon {
+          color: #ff6b35;
+          font-size: 28px;
+          width: 28px;
+          height: 28px;
+        }
+
+        h2 {
+          margin: 0;
+          font-size: 1.8rem;
+          font-weight: 600;
+          color: #333;
+        }
+      }
+
+      .dishes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 20px;
+        padding: 24px;
+      }
+
+      .no-dishes {
+        text-align: center;
+        padding: 60px 24px;
+        color: #666;
+
+        mat-icon {
+          font-size: 48px;
+          width: 48px;
+          height: 48px;
+          margin-bottom: 16px;
+          color: #ccc;
+        }
+
+        h3 {
+          margin: 0 0 8px 0;
+          font-size: 1.3rem;
+          font-weight: 500;
+        }
+
+        p {
+          margin: 0;
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .menu-container {
+    .restaurant-header {
+      height: 250px;
+
+      .restaurant-overlay {
+        padding: 20px 16px 16px;
+
+        .restaurant-info {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+
+          .restaurant-logo {
+            width: 60px;
+            height: 60px;
+          }
+
+          .info-text {
+            h1 {
+              font-size: 1.8rem;
+            }
+
+            p {
+              font-size: 1rem;
+            }
+
+            .restaurant-details {
+              gap: 16px;
+
+              .detail-item {
+                font-size: 0.9rem;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .menu-content {
+      padding: 0 16px 40px;
+
+      .menu-tabs {
+        .category-header {
+          padding: 16px;
+
+          h2 {
+            font-size: 1.5rem;
+          }
+        }
+
+        .dishes-grid {
+          grid-template-columns: 1fr;
+          gap: 16px;
+          padding: 16px;
+        }
+
+        .no-dishes {
+          padding: 40px 16px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,109 @@
+<div class="register-container">
+  <div class="register-content">
+    <div class="register-header">
+      <img src="assets/Logo/Logo.png" alt="Bestell App" class="logo">
+      <h1>Registrieren</h1>
+      <p>Erstellen Sie Ihr Konto und bestellen Sie bei Ihren Lieblingsrestaurants.</p>
+    </div>
+
+    <mat-card class="register-card">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <mat-card-content>
+          <div class="name-row">
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>Vorname</mat-label>
+              <input matInput formControlName="firstName" placeholder="Max">
+              <mat-error *ngIf="registerForm.get('firstName')?.hasError('required')">
+                Vorname ist erforderlich
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>Nachname</mat-label>
+              <input matInput formControlName="lastName" placeholder="Mustermann">
+              <mat-error *ngIf="registerForm.get('lastName')?.hasError('required')">
+                Nachname ist erforderlich
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>E-Mail-Adresse</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="max@example.com">
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
+              E-Mail ist erforderlich
+            </mat-error>
+            <mat-error *ngIf="registerForm.get('email')?.hasError('email')">
+              Ungültige E-Mail-Adresse
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Telefonnummer</mat-label>
+            <input matInput formControlName="phone" placeholder="+49 123 4567890">
+            <mat-icon matSuffix>phone</mat-icon>
+            <mat-error *ngIf="registerForm.get('phone')?.hasError('required')">
+              Telefonnummer ist erforderlich
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Passwort</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" 
+                   formControlName="password" placeholder="Mindestens 6 Zeichen">
+            <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" 
+                    type="button" aria-label="Toggle password visibility">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+              Passwort ist erforderlich
+            </mat-error>
+            <mat-error *ngIf="registerForm.get('password')?.hasError('minlength')">
+              Passwort muss mindestens 6 Zeichen lang sein
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Passwort bestätigen</mat-label>
+            <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" 
+                   formControlName="confirmPassword" placeholder="Passwort wiederholen">
+            <button mat-icon-button matSuffix (click)="toggleConfirmPasswordVisibility()" 
+                    type="button" aria-label="Toggle confirm password visibility">
+              <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="registerForm.get('confirmPassword')?.hasError('required')">
+              Passwort-Bestätigung ist erforderlich
+            </mat-error>
+            <mat-error *ngIf="registerForm.get('confirmPassword')?.hasError('passwordMismatch')">
+              Passwörter stimmen nicht überein
+            </mat-error>
+          </mat-form-field>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-raised-button color="primary" type="submit" 
+                  [disabled]="!registerForm.valid || loading" class="register-btn">
+            <mat-icon *ngIf="!loading">person_add</mat-icon>
+            <mat-icon *ngIf="loading" class="loading-icon">refresh</mat-icon>
+            <span *ngIf="!loading">Registrieren</span>
+            <span *ngIf="loading">Wird registriert...</span>
+          </button>
+        </mat-card-actions>
+      </form>
+    </mat-card>
+
+    <div class="login-prompt">
+      <p>Bereits ein Konto? 
+        <a routerLink="/auth/login" class="login-link">Jetzt anmelden</a>
+      </p>
+    </div>
+
+    <div class="back-to-home">
+      <button mat-button routerLink="/">
+        <mat-icon>arrow_back</mat-icon>
+        Zurück zur Startseite
+      </button>
+    </div>
+  </div>
+</div>

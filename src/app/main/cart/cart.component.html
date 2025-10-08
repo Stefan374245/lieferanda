@@ -1,0 +1,102 @@
+<div class="cart-container">
+  <div class="cart-header">
+    <h1>
+      <mat-icon>shopping_cart</mat-icon>
+      Warenkorb
+    </h1>
+    <p *ngIf="cartItems.length > 0">{{cartItems.length}} Artikel in Ihrem Warenkorb</p>
+  </div>
+
+  <!-- Empty Cart -->
+  <div *ngIf="cartItems.length === 0" class="empty-cart">
+    <mat-icon>remove_shopping_cart</mat-icon>
+    <h2>Ihr Warenkorb ist leer</h2>
+    <p>Fügen Sie leckere Gerichte hinzu und bestellen Sie bei Ihrem Lieblingsrestaurant.</p>
+    <button mat-raised-button color="primary" (click)="continueShopping()">
+      <mat-icon>restaurant</mat-icon>
+      Restaurants entdecken
+    </button>
+  </div>
+
+  <!-- Cart Items -->
+  <div *ngIf="cartItems.length > 0" class="cart-content">
+    <div class="cart-items">
+      <mat-card *ngFor="let item of cartItems" class="cart-item-card">
+        <div class="item-content">
+          <div class="item-image">
+            <img [src]="item.dish.image" [alt]="item.dish.name" />
+          </div>
+          
+          <div class="item-details">
+            <h3>{{item.dish.name}}</h3>
+            <p class="description">{{item.dish.description}}</p>
+            <div class="price">{{item.dish.price | currency:'EUR':'symbol':'1.2-2'}} / Stück</div>
+            <div *ngIf="item.notes" class="notes">
+              <strong>Anmerkungen:</strong> {{item.notes}}
+            </div>
+          </div>
+
+          <div class="item-actions">
+            <div class="quantity-controls">
+              <button mat-icon-button (click)="decreaseQuantity(item.id)" [disabled]="item.quantity <= 1">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <span class="quantity">{{item.quantity}}</span>
+              <button mat-icon-button (click)="increaseQuantity(item.id)">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+            
+            <div class="item-total">
+              {{item.totalPrice | currency:'EUR':'symbol':'1.2-2'}}
+            </div>
+            
+            <button mat-icon-button color="warn" (click)="removeItem(item.id)" class="remove-btn">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+      <mat-card class="summary-card">
+        <mat-card-header>
+          <h2>Bestellübersicht</h2>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <div class="summary-line">
+            <span>Zwischensumme:</span>
+            <span>{{subtotal | currency:'EUR':'symbol':'1.2-2'}}</span>
+          </div>
+          
+          <div class="summary-line">
+            <span>Lieferkosten:</span>
+            <span>{{deliveryFee | currency:'EUR':'symbol':'1.2-2'}}</span>
+          </div>
+          
+          <mat-divider class="summary-divider"></mat-divider>
+          
+          <div class="summary-line total">
+            <span>Gesamtkosten:</span>
+            <span>{{total | currency:'EUR':'symbol':'1.2-2'}}</span>
+          </div>
+        </mat-card-content>
+        
+        <mat-card-actions class="summary-actions">
+          <button mat-button (click)="clearCart()" color="warn">
+            <mat-icon>clear_all</mat-icon>
+            Warenkorb leeren
+          </button>
+          
+          <button mat-raised-button color="primary" (click)="goToCheckout()" class="checkout-btn">
+            <mat-icon>payment</mat-icon>
+            Zur Kasse
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

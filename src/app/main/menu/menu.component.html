@@ -1,0 +1,65 @@
+<div class="menu-container">
+  <!-- Restaurant Header -->
+  <div class="restaurant-header" *ngIf="restaurant">
+    <div class="header-image">
+      <img [src]="restaurant.coverImage" [alt]="restaurant.name" />
+      <div class="restaurant-overlay">
+        <div class="restaurant-info">
+          <img [src]="restaurant.logo" [alt]="restaurant.name" class="restaurant-logo" />
+          <div class="info-text">
+            <h1>{{restaurant.name}}</h1>
+            <p>{{restaurant.description}}</p>
+            <div class="restaurant-details">
+              <span class="detail-item">
+                <mat-icon>schedule</mat-icon>
+                {{restaurant.deliveryTime}} Min Lieferzeit
+              </span>
+              <span class="detail-item">
+                <mat-icon>delivery_dining</mat-icon>
+                {{restaurant.deliveryFee}}€ Liefergebühr
+              </span>
+              <span class="detail-item">
+                <mat-icon>shopping_cart</mat-icon>
+                Min. {{restaurant.minimumOrder}}€
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Speisekarte wird geladen...</p>
+  </div>
+
+  <!-- Menu Content -->
+  <div *ngIf="!loading" class="menu-content">
+    <mat-tab-group class="menu-tabs" dynamicHeight>
+      <mat-tab *ngFor="let category of categories" 
+               [label]="category.label + ' (' + getCategoryCount(category.key) + ')'">
+        <ng-template matTabContent>
+          <div class="category-header">
+            <mat-icon>{{category.icon}}</mat-icon>
+            <h2>{{category.label}}</h2>
+          </div>
+          
+          <div class="dishes-grid" *ngIf="getDishesByCategory(category.key).length > 0">
+            <app-dish-card 
+              *ngFor="let dish of getDishesByCategory(category.key)" 
+              [dish]="dish">
+            </app-dish-card>
+          </div>
+          
+          <div class="no-dishes" *ngIf="getDishesByCategory(category.key).length === 0">
+            <mat-icon>{{category.icon}}</mat-icon>
+            <h3>Keine {{category.label}} verfügbar</h3>
+            <p>In dieser Kategorie sind derzeit keine Gerichte verfügbar.</p>
+          </div>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

@@ -1,0 +1,109 @@
+<div class="search-container">
+  <div class="search-header">
+    <h1>Suche</h1>
+    <div class="search-bar">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Restaurant oder Gericht suchen...</mat-label>
+        <input matInput [formControl]="searchControl" (keyup.enter)="onSearch()">
+        <mat-icon matSuffix (click)="onSearch()">search</mat-icon>
+      </mat-form-field>
+    </div>
+    <p *ngIf="searchQuery" class="search-info">
+      Suchergebnisse für: <strong>"{{searchQuery}}"</strong>
+    </p>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Suche läuft...</p>
+  </div>
+
+  <div *ngIf="!loading && searchQuery" class="search-results">
+    <mat-tab-group>
+      <mat-tab [label]="'Gerichte (' + dishes.length + ')'">
+        <div class="tab-content">
+          <div *ngIf="dishes.length > 0" class="dishes-grid">
+            <app-dish-card *ngFor="let dish of dishes" [dish]="dish"></app-dish-card>
+          </div>
+          <div *ngIf="dishes.length === 0" class="no-results">
+            <mat-icon>restaurant</mat-icon>
+            <h3>Keine Gerichte gefunden</h3>
+            <p>Versuchen Sie es mit anderen Suchbegriffen.</p>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab [label]="'Restaurants (' + restaurants.length + ')'">
+        <div class="tab-content">
+          <div *ngIf="restaurants.length > 0" class="restaurants-grid">
+            <div *ngFor="let restaurant of restaurants" class="restaurant-card">
+              <div class="restaurant-image">
+                <img [src]="restaurant.coverImage" [alt]="restaurant.name" />
+                <div class="delivery-badge">
+                  <mat-icon>schedule</mat-icon>
+                  {{restaurant.deliveryTime}} Min
+                </div>
+              </div>
+              
+              <div class="restaurant-content">
+                <div class="restaurant-header">
+                  <img [src]="restaurant.logo" [alt]="restaurant.name" class="restaurant-logo" />
+                  <div class="restaurant-info">
+                    <h3>{{restaurant.name}}</h3>
+                    <div class="rating">
+                      <mat-icon>star</mat-icon>
+                      <span>{{restaurant.rating}}</span>
+                      <span class="review-count">({{restaurant.reviewCount}})</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <p class="description">{{restaurant.description}}</p>
+                
+                <div class="restaurant-meta">
+                  <span class="delivery-fee">{{restaurant.deliveryFee}}€ Lieferung</span>
+                  <span class="minimum-order">Min. {{restaurant.minimumOrder}}€</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="restaurants.length === 0" class="no-results">
+            <mat-icon>store</mat-icon>
+            <h3>Keine Restaurants gefunden</h3>
+            <p>Versuchen Sie es mit anderen Suchbegriffen.</p>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+  <div *ngIf="!loading && !searchQuery" class="search-suggestions">
+    <h2>Beliebte Suchbegriffe</h2>
+    <div class="suggestions-grid">
+      <div class="suggestion-card" (click)="searchControl.setValue('Pizza'); onSearch()">
+        <mat-icon>local_pizza</mat-icon>
+        <span>Pizza</span>
+      </div>
+      <div class="suggestion-card" (click)="searchControl.setValue('Burger'); onSearch()">
+        <mat-icon>lunch_dining</mat-icon>
+        <span>Burger</span>
+      </div>
+      <div class="suggestion-card" (click)="searchControl.setValue('Sushi'); onSearch()">
+        <mat-icon>ramen_dining</mat-icon>
+        <span>Sushi</span>
+      </div>
+      <div class="suggestion-card" (click)="searchControl.setValue('Salat'); onSearch()">
+        <mat-icon>eco</mat-icon>
+        <span>Salat</span>
+      </div>
+      <div class="suggestion-card" (click)="searchControl.setValue('Pasta'); onSearch()">
+        <mat-icon>dinner_dining</mat-icon>
+        <span>Pasta</span>
+      </div>
+      <div class="suggestion-card" (click)="searchControl.setValue('Dessert'); onSearch()">
+        <mat-icon>cake</mat-icon>
+        <span>Dessert</span>
+      </div>
+    </div>
+  </div>
+</div>

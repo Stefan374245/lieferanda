@@ -1,0 +1,58 @@
+<mat-card class="dish-card" [class.unavailable]="!dish.isAvailable">
+  <div class="card-image">
+    <img [src]="dish.image" [alt]="dish.name" />
+    <div class="dietary-badges">
+      <mat-icon *ngFor="let icon of getDietaryIcons()" class="dietary-icon" [title]="icon">
+        {{icon}}
+      </mat-icon>
+    </div>
+    <div class="preparation-time">
+      <mat-icon>schedule</mat-icon>
+      {{dish.preparationTime}} Min
+    </div>
+  </div>
+
+  <mat-card-content class="dish-content">
+    <div class="dish-header">
+      <h3>{{dish.name}}</h3>
+      <div class="price">{{dish.price | currency:'EUR':'symbol':'1.2-2'}}</div>
+    </div>
+
+    <p class="description">{{dish.description}}</p>
+
+    <div class="rating-section">
+      <div class="stars">
+        <mat-icon *ngFor="let star of generateStars(dish.rating)">
+          {{star}}
+        </mat-icon>
+      </div>
+      <span class="rating-text">{{dish.rating}}</span>
+    </div>
+
+    <div class="ingredients" *ngIf="dish.ingredients.length > 0">
+      <strong>Zutaten:</strong>
+      <span>{{dish.ingredients.join(', ')}}</span>
+    </div>
+
+    <div class="allergens" *ngIf="dish.allergens.length > 0">
+      <mat-chip-set>
+        <mat-chip *ngFor="let allergen of dish.allergens" color="warn">
+          {{allergen}}
+        </mat-chip>
+      </mat-chip-set>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions class="dish-actions">
+    <button 
+      mat-raised-button 
+      color="primary" 
+      (click)="addToCart()"
+      [disabled]="!dish.isAvailable"
+      class="add-to-cart-btn">
+      <mat-icon>add_shopping_cart</mat-icon>
+      <span *ngIf="dish.isAvailable">In den Warenkorb</span>
+      <span *ngIf="!dish.isAvailable">Nicht verfügbar</span>
+    </button>
+  </mat-card-actions>
+</mat-card>
